@@ -45,6 +45,8 @@ body {
   color: var(--text-main);
   line-height: 1.8;
   font-size: 16px;
+  overflow-x: hidden;
+  padding-bottom: env(safe-area-inset-bottom, 0px);
 }
 
 /* ===== SCROLLBAR ===== */
@@ -171,6 +173,9 @@ body {
   flex: 1;
   padding: 32px 40px;
   min-width: 0;
+  overflow-x: hidden;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 /* ===== COVER PAGE ===== */
@@ -1480,6 +1485,165 @@ body.dark-mode .theme-toggle-btn .tt-icon { transform:rotate(180deg); }
     background: #fff !important;
     -webkit-print-color-adjust: exact !important;
     print-color-adjust: exact !important;
+  }
+}
+
+
+/* ═══════════════════════════════════
+   FRAVE MOBILE APP — Full Responsive
+   ═══════════════════════════════════ */
+
+/* Universal box-sizing safety on mobile */
+@media (max-width: 900px) {
+  *, *::before, *::after { box-sizing: border-box; }
+  html, body { overflow-x: hidden; max-width: 100vw; }
+
+  .layout {
+    flex-direction: column;
+    max-width: 100%;
+    width: 100%;
+    gap: 0;
+    padding: 0;
+  }
+  .sidebar { display: none !important; }
+  .main-content {
+    padding: 16px 12px;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    overflow-x: hidden;
+    box-sizing: border-box;
+  }
+
+  /* Cards / sections never overflow */
+  section, .card, .section-card, .grammar-card, .vocab-card,
+  .dialogue-box, .lesson-card, .info-card, .quiz-card,
+  .cover-page, .stats-grid, .alphabet-grid, .flashcard-grid,
+  .conj-table, .cases-grid, .vocab-table {
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  /* Tables become horizontally scrollable */
+  table, .conj-table, .cases-grid, .vocab-table {
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    max-width: 100%;
+    width: 100%;
+  }
+
+  /* Images and media stay inside viewport */
+  img, video, iframe, svg { max-width: 100%; height: auto; }
+
+  /* Pre/code blocks scroll instead of overflow */
+  pre, code { max-width: 100%; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word; }
+}
+
+@media (max-width: 700px) {
+  /* Header */
+  .header-inner {
+    padding: 8px 12px;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+  .header-logo { font-size: 11px; }
+  .header-title { display: none !important; }
+  .header-nav {
+    flex: 0 0 100%;
+    overflow-x: auto;
+    scrollbar-width: none;
+    padding: 2px 0;
+    -webkit-overflow-scrolling: touch;
+  }
+  .header-nav::-webkit-scrollbar { display: none; }
+  .tools-bar {
+    flex: 0 0 100%;
+    overflow-x: auto;
+    scrollbar-width: none;
+    padding: 2px 0 4px;
+    gap: 4px;
+    -webkit-overflow-scrolling: touch;
+  }
+  .tools-bar::-webkit-scrollbar { display: none; }
+  .nav-btn { font-size: 11px; padding: 4px 9px; min-height: 40px; white-space: nowrap; }
+  .tool-btn { width: 30px; height: 30px; font-size: 13px; min-height: 30px; }
+
+  /* Cover page */
+  .cover-page {
+    padding: 24px 16px;
+    border-radius: 12px;
+  }
+  .cover-title { font-size: 1.6rem; }
+  .cover-stats {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+  .cover-stat { padding: 14px 10px; }
+
+  /* Cards */
+  .alphabet-grid {
+    grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+    gap: 8px;
+  }
+  .letter-card { padding: 12px 8px; }
+  .letter-main { font-size: 2.4rem; }
+
+  /* Section headers */
+  .section-header {
+    gap: 8px;
+    padding: 14px 0;
+  }
+  .section-num {
+    width: 32px;
+    height: 32px;
+    font-size: 13px;
+    flex-shrink: 0;
+  }
+  .section-info h2 { font-size: 1rem; }
+
+  /* Touch-friendly targets */
+  button, .nav-btn, .toc-item { min-height: 40px; }
+
+  /* Disable hover effects on touch devices */
+  @media (hover: none) {
+    a:hover, button:hover, .nav-btn:hover, .tool-btn:hover,
+    .toc-item:hover, .letter-card:hover, .flashcard:hover,
+    .quiz-option:hover { background: inherit; transform: none; box-shadow: inherit; }
+  }
+
+  /* Search overlay */
+  .search-box {
+    width: 96vw;
+    padding: 20px 16px;
+    border-radius: 12px;
+  }
+  .search-box h3 { font-size: 1rem; }
+}
+
+@media (max-width: 480px) {
+  .logo-badge { font-size: 12px; padding: 3px 8px; }
+
+  .cover-title { font-size: 1.3rem; }
+  .cover-subtitle { font-size: 0.85rem; }
+
+  .alphabet-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  .flashcard-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+  }
+
+  .main-content { padding: 12px 8px; }
+  .cover-page { padding: 18px 12px; }
+}
+
+/* iOS safe-area on notched devices */
+@supports (padding: max(0px)) {
+  body {
+    padding-left: env(safe-area-inset-left, 0px);
+    padding-right: env(safe-area-inset-right, 0px);
   }
 }
 
